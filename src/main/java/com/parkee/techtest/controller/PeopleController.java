@@ -31,7 +31,7 @@ public class PeopleController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<GeneralResponseBean> list(Pageable pageable,
                                                     @RequestParam(required = false, defaultValue = "") String keyword) {
         GeneralResponseBean<Page<PeopleResponseBean>> response =

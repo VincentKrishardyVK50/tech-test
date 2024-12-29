@@ -8,14 +8,16 @@ Before develop REST API for the assessment, I designed relational database like 
 
 REST API for Book Management: 
 
-* POST /api/back-office/book/create
-* GET /api/back-office/book?keyword={keyword}
+* Create new book: POST /api/back-office/book/create (**MANDATORY**)
+* Get list of book: GET /api/back-office/book?keyword={keyword}
+* Get detail of book: GET /api/back-office/book/{id}
 
 
 REST API for People Management: 
 
-* POST /api/back-office/people/create
-* GET /api/back-office/people?keyword={keyword}
+* Create new people: POST /api/back-office/people/create (**MANDATORY**)
+* Get list of people: GET /api/back-office/people?keyword={keyword}
+* Get detail of people:  GET /api/back-office/book/{id}
 
 REST API for Loan Book Processing: 
 
