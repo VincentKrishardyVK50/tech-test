@@ -5,6 +5,7 @@ import com.parkee.techtest.bean.PeopleResponseBean;
 import com.parkee.techtest.mapper.PeopleMapper;
 import com.parkee.techtest.model.People;
 import com.parkee.techtest.repository.PeopleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,12 @@ public class PeopleService {
         return peopleRepository
                 .findBooksByKeyword(pageable, keyword)
                 .map(peopleMapper::toBean);
+    }
+
+    public PeopleResponseBean getDetailPeople(long id) {
+        // find by id, if not found throw exception
+        return peopleRepository.findById(id)
+                .map(peopleMapper::toBean)
+                .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
     }
 }

@@ -1,6 +1,7 @@
 package com.parkee.techtest.exception;
 
 import com.parkee.techtest.bean.GeneralResponseBean;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.apache.logging.log4j.LogManager;
@@ -20,5 +21,13 @@ public class CustomExceptionHandler {
         exception.printStackTrace(); // print stack trace
         GeneralResponseBean<String> response = new GeneralResponseBean<>(exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<GeneralResponseBean> handleEntityNotFoundException(EntityNotFoundException exception) {
+        logger.error("Error: {}", exception.getMessage());  // logger for kind of exception message
+        exception.printStackTrace(); // print stack trace
+        GeneralResponseBean<String> response = new GeneralResponseBean<>(exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

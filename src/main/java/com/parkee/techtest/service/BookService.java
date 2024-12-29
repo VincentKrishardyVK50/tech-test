@@ -2,9 +2,11 @@ package com.parkee.techtest.service;
 
 import com.parkee.techtest.bean.BookRequestBean;
 import com.parkee.techtest.bean.BookResponseBean;
+import com.parkee.techtest.bean.PeopleResponseBean;
 import com.parkee.techtest.mapper.BookMapper;
 import com.parkee.techtest.model.Book;
 import com.parkee.techtest.repository.BookRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,12 @@ public class BookService {
         return bookRepository
                 .findBooksByKeyword(pageable, keyword)
                 .map(bookMapper::toBean);
+    }
+
+    public BookResponseBean getDetailBook(long id) {
+        // find by id, if not found throw exception
+        return bookRepository.findById(id)
+                .map(bookMapper::toBean)
+                .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
     }
 }

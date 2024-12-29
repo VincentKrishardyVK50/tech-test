@@ -38,4 +38,11 @@ public class PeopleController {
                 new GeneralResponseBean<>(peopleService.getListPeople(pageable, keyword), HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GeneralResponseBean> detail(@PathVariable long id) {
+        GeneralResponseBean<PeopleResponseBean> response =
+                new GeneralResponseBean<>(peopleService.getDetailPeople(id), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
