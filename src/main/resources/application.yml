@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: tech-test
+    datasource:
+        url: jdbc:mysql://localhost:3306/book_lending
+        username: root
+        password: 1234
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+
