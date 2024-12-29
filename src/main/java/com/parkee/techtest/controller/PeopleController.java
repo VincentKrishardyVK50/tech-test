@@ -6,12 +6,11 @@ import com.parkee.techtest.bean.PeopleRequestBean;
 import com.parkee.techtest.bean.PeopleResponseBean;
 import com.parkee.techtest.service.PeopleService;
 import com.parkee.techtest.validation.PeopleValidation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/back-office/people")
@@ -30,5 +29,13 @@ public class PeopleController {
         GeneralResponseBean<PeopleResponseBean> response =
                 new GeneralResponseBean<>(peopleService.createNewPeople(bean), HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<GeneralResponseBean> list(Pageable pageable,
+                                                    @RequestParam(required = false, defaultValue = "") String keyword) {
+        GeneralResponseBean<Page<PeopleResponseBean>> response =
+                new GeneralResponseBean<>(peopleService.getListPeople(pageable, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

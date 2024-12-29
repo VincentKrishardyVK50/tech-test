@@ -5,12 +5,12 @@ import com.parkee.techtest.bean.BookResponseBean;
 import com.parkee.techtest.bean.GeneralResponseBean;
 import com.parkee.techtest.service.BookService;
 import com.parkee.techtest.validation.BookValidation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/back-office/book")
@@ -29,5 +29,13 @@ public class BookController {
         GeneralResponseBean<BookResponseBean> response =
                 new GeneralResponseBean<>(bookService.createNewBook(bean), HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<GeneralResponseBean> list(Pageable pageable,
+                                                       @RequestParam(required = false, defaultValue = "") String keyword) {
+        GeneralResponseBean<Page<BookResponseBean>> response =
+                new GeneralResponseBean<>(bookService.getListBook(pageable, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
