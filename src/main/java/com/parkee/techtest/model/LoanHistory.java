@@ -17,9 +17,10 @@ public class LoanHistory {
     @JoinColumn(name = "people_id")
     private People people;
 
-    private LocalDate loadDateStart;
+    private LocalDate loanDateStart;
 
-    private LocalDate loadDateEnd;
+    private LocalDate loanDateEnd;
+    private LocalDate returnDate;
 
     private String status;
 
@@ -47,20 +48,20 @@ public class LoanHistory {
         this.people = people;
     }
 
-    public LocalDate getLoadDateStart() {
-        return loadDateStart;
+    public LocalDate getLoanDateStart() {
+        return loanDateStart;
     }
 
-    public void setLoadDateStart(LocalDate loadDateStart) {
-        this.loadDateStart = loadDateStart;
+    public void setLoanDateStart(LocalDate loanDateStart) {
+        this.loanDateStart = loanDateStart;
     }
 
-    public LocalDate getLoadDateEnd() {
-        return loadDateEnd;
+    public LocalDate getLoanDateEnd() {
+        return loanDateEnd;
     }
 
-    public void setLoadDateEnd(LocalDate loadDateEnd) {
-        this.loadDateEnd = loadDateEnd;
+    public void setLoanDateEnd(LocalDate loanDateEnd) {
+        this.loanDateEnd = loanDateEnd;
     }
 
     public String getStatus() {
@@ -69,5 +70,13 @@ public class LoanHistory {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
     }
 }
