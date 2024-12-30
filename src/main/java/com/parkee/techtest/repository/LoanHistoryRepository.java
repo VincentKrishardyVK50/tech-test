@@ -13,14 +13,14 @@ import java.util.Optional;
 @Repository
 public interface LoanHistoryRepository extends JpaRepository<LoanHistory, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM loan_history lh " +
-            "WHERE people_id = :peopleId AND status != 'LOANED' " +
+            "WHERE people_id = :peopleId AND status = 'LOANED' " +
             "ORDER BY lh.id DESC " +
             "LIMIT 1")
     Optional<LoanHistory> findByPeopleId(long peopleId);
 
     @Query(nativeQuery = true, value =
             "SELECT lh.id as id, p.name as peopleName, b.book_title as titleBook, " +
-            "   lh.loan_date_start as loanDate, lh.return_date as returnDate lh.status as status " +
+            "   lh.loan_date_start as loanDate, lh.return_date as returnDate, lh.status as status " +
             "FROM loan_history lh " +
             "   INNER JOIN people p ON lh.people_id = p.id " +
             "   INNER JOIN book b ON lh.book_id = b.id " +

@@ -1,5 +1,6 @@
 CREATE TABLE `book` (
     `id` bigint NOT NULL AUTO_INCREMENT,
+    `deleted` bit(1) NOT NULL,
     `book_title` varchar(255) DEFAULT NULL,
     `isbn_number` varchar(255) DEFAULT NULL,
     `stock` bigint NOT NULL,
@@ -21,6 +22,7 @@ CREATE TABLE `loan_history` (
 
 CREATE TABLE `people` (
     `id` bigint NOT NULL AUTO_INCREMENT,
+    `deleted` bit(1) NOT NULL,
     `email` varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
     `nik` varchar(255) DEFAULT NULL,

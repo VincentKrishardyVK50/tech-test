@@ -50,7 +50,7 @@ public class LoanService {
 
         // validate people if still have loan book
         loanHistoryRepository.findByPeopleId(bean.getPeopleId()).ifPresent(entity -> {
-            throw new RuntimeException("Masih ada buku yang belum dikembalikan");
+            throw new RuntimeException("Masih ada buku yang belum dikembalikan!");
         });
 
         People currPeople = peopleRepository.findById(bean.getPeopleId())

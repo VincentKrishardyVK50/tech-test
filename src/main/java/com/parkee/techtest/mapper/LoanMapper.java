@@ -10,5 +10,6 @@ public interface LoanMapper {
     @Mapping(target = "loanDateStart", source = "bean.loanDate")
     @Mapping(target = "loanDateEnd", source = "bean.returnDate")
     @Mapping(target = "status", constant = "LOANED")
+    @Mapping(target = "returnDate", ignore = true)
     LoanHistory toEntity(LoanRequestBean bean);
 }
