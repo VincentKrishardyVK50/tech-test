@@ -1,9 +1,18 @@
 package com.parkee.techtest.bean;
 
 public class PeopleRequestBean {
+    private long id;
     private String nik;
     private String name;
     private String email;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getNik() {
         return nik;

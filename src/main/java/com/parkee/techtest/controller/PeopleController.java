@@ -1,9 +1,6 @@
 package com.parkee.techtest.controller;
 
-import com.parkee.techtest.bean.BookResponseBean;
-import com.parkee.techtest.bean.GeneralResponseBean;
-import com.parkee.techtest.bean.PeopleRequestBean;
-import com.parkee.techtest.bean.PeopleResponseBean;
+import com.parkee.techtest.bean.*;
 import com.parkee.techtest.service.PeopleService;
 import com.parkee.techtest.validation.PeopleValidation;
 import org.springframework.data.domain.Page;
@@ -44,5 +41,20 @@ public class PeopleController {
         GeneralResponseBean<PeopleResponseBean> response =
                 new GeneralResponseBean<>(peopleService.getDetailPeople(id), HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<GeneralResponseBean> update(@RequestBody PeopleRequestBean bean){
+        peopleValidation.validateUpdatedPeople(bean);
+        GeneralResponseBean<PeopleResponseBean> response =
+                new GeneralResponseBean<>(peopleService.updateCurrentPeople(bean), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){
+        peopleService.deletePeople(id);
+        GeneralResponseBean<Void> response = new GeneralResponseBean<>( null , HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

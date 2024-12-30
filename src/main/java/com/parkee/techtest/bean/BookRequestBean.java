@@ -1,9 +1,18 @@
 package com.parkee.techtest.bean;
 
 public class BookRequestBean {
+    private long id;
     private String bookTitle;
     private String isbnNumber;
     private long stock;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getBookTitle() {
         return bookTitle;

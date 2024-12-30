@@ -24,7 +24,8 @@ public interface LoanHistoryRepository extends JpaRepository<LoanHistory, Long> 
             "FROM loan_history lh " +
             "   INNER JOIN people p ON lh.people_id = p.id " +
             "   INNER JOIN book b ON lh.book_id = b.id " +
-            "WHERE :keyword = '' OR b.book_title LIKE CONCAT('%', :keyword, '%') " +
-            "   OR p.name LIKE CONCAT('%', :keyword, '%')")
+            "WHERE (:keyword = '' OR b.book_title LIKE CONCAT('%', :keyword, '%') " +
+            "   OR p.name LIKE CONCAT('%', :keyword, '%') )" +
+            "   AND p.deleted = false AND b.deleted = false")
     Page<LoanHistoryProjection> findListLoanHistory(Pageable pageable, String keyword);
 }

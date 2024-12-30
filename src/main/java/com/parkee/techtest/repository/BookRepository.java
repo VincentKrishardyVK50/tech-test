@@ -11,12 +11,14 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository <Book, Long> {
-    Optional<Book> findByIsbnNumber(String isbn);
-    Optional<Book> findByBookTitle(String title);
+    Optional<Book> findByIsbnNumberAndDeletedFalse(String isbn);
+    Optional<Book> findByIsbnNumberAndIdNotAndDeletedFalse(String isbn, long id);
+
 
     @Query(nativeQuery = true, value =
             "SELECT * FROM book b " +
-            "WHERE :keyword = '' OR b.book_title LIKE CONCAT('%', :keyword, '%') " +
-            "   OR b.isbn_number LIKE CONCAT('%', :keyword, '%') ")
+            "WHERE ( :keyword = '' OR b.book_title LIKE CONCAT('%', :keyword, '%') " +
+            "   OR b.isbn_number LIKE CONCAT('%', :keyword, '%') )" +
+            "   AND b.deleted = false ")
     Page<Book> findBooksByKeyword(Pageable pageable, String keyword);
 }

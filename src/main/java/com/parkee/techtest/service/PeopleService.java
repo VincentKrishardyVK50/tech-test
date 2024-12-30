@@ -28,6 +28,27 @@ public class PeopleService {
         return peopleMapper.toBean(people);
     }
 
+    @Transactional
+    public PeopleResponseBean updateCurrentPeople(PeopleRequestBean request) {
+        // find current people by id which want to update
+        People people = peopleRepository.findById(request.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
+        peopleMapper.toUpdateEntity(request, people);
+        people = peopleRepository.save(people);
+        return peopleMapper.toBean(people);
+    }
+
+    @Transactional
+    public void deletePeople(long id) {
+        peopleRepository.findById(id).ifPresentOrElse(entity -> {
+            // if exists it will soft-deleted by set true in "deleted" column
+            entity.setDeleted(true);
+            peopleRepository.save(entity);
+        }, () -> {
+            // in case given id is not found
+            throw new EntityNotFoundException("Data tidak ditemukan");
+        });
+    }
     /**
      * get list of people which can filter by nik, name, or email based on given keyword
      */

@@ -46,4 +46,19 @@ public class BookController {
                 new GeneralResponseBean<>(bookService.getDetailBook(id), HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<GeneralResponseBean> update(@RequestBody BookRequestBean bean){
+        bookValidation.validateUpdatedBook(bean);
+        GeneralResponseBean<BookResponseBean> response =
+                new GeneralResponseBean<>(bookService.updateCurrentBook(bean), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){
+        bookService.deleteBook(id);
+        GeneralResponseBean<Void> response = new GeneralResponseBean<>( null , HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }

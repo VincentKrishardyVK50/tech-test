@@ -29,6 +29,28 @@ public class BookService {
         return bookMapper.toBean(book);
     }
 
+    @Transactional
+    public BookResponseBean updateCurrentBook(BookRequestBean request) {
+        // find current book by id which want to update
+        Book book = bookRepository.findById(request.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
+        bookMapper.toUpdatedEntity(request, book);
+        book = bookRepository.save(book);
+        return bookMapper.toBean(book);
+    }
+
+    @Transactional
+    public void deleteBook(long id) {
+        bookRepository.findById(id).ifPresentOrElse(entity -> {
+            // if exists it will soft-deleted by set true in "deleted" column
+            entity.setDeleted(true);
+            bookRepository.save(entity);
+        }, () -> {
+            // in case given id is not found
+            throw new EntityNotFoundException("Data tidak ditemukan");
+        });
+    }
+
     /**
      * get list of book which can filter by isbn or title book based on given keyword
      */

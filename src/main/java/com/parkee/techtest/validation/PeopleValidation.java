@@ -24,6 +24,15 @@ public class PeopleValidation {
         validateName(bean.getName());
     }
 
+    public void validateUpdatedPeople(PeopleRequestBean bean) {
+        if(bean.getId() == 0) {
+            throw new RuntimeException("ID buku harus diisi!");
+        }
+        validateUpdatedNik(bean.getNik(), bean.getId());
+        validateUpdatedEmail(bean.getEmail(), bean.getId());
+        validateName(bean.getName());
+    }
+
     private void validateNik(String nik) {
         // check request attribute must not be empty
         if (StringUtils.isBlank(nik)) {
@@ -36,7 +45,24 @@ public class PeopleValidation {
         }
 
         // check if nik already in database (nik value is unique for each people)
-        if(peopleRepository.findByNik(nik).isPresent()) {
+        if(peopleRepository.findByNikAndDeletedFalse(nik).isPresent()) {
+            throw new RuntimeException("NIK sudah terdaftar!");
+        }
+    }
+
+    private void validateUpdatedNik(String nik, long id) {
+        // check request attribute must not be empty
+        if (StringUtils.isBlank(nik)) {
+            throw new RuntimeException("NIK harus diisi!");
+        }
+
+        // check length of nik (always 16 character)
+        if (nik.length() != 16) {
+            throw new RuntimeException("NIK harus terdiri dari 16 angka!");
+        }
+
+        // check if nik already in database and used in other people (nik value is unique for each people)
+        if(peopleRepository.findByNikAndIdNotAndDeletedFalse(nik, id).isPresent()) {
             throw new RuntimeException("NIK sudah terdaftar!");
         }
     }
@@ -55,7 +81,26 @@ public class PeopleValidation {
         }
 
         // check if email already exists in database
-        if(peopleRepository.findByEmail(email).isPresent()) {
+        if(peopleRepository.findByEmailAndDeletedFalse(email).isPresent()) {
+            throw new RuntimeException("Email sudah terdaftar!");
+        }
+    }
+
+    private void validateUpdatedEmail(String email, long id) {
+        // check request attribute must not be empty
+        if (StringUtils.isBlank(email)) {
+            throw new RuntimeException("Email harus diisi!");
+        }
+
+        // check email value pattern using regular expression
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches()) {
+            throw new RuntimeException("Email tidak valid!");
+        }
+
+        // check if email already exists in database
+        if(peopleRepository.findByEmailAndIdNotAndDeletedFalse(email, id).isPresent()) {
             throw new RuntimeException("Email sudah terdaftar!");
         }
     }
