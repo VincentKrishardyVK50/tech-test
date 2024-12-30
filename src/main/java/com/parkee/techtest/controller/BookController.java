@@ -24,6 +24,11 @@ public class BookController {
         this.bookValidation = bookValidation;
     }
 
+    /**
+     * endpoint for create book into database
+     * @param bean which contains book title, isbn number, and stock
+     * @return only information about created book
+     */
     @PostMapping("/create")
     public ResponseEntity<GeneralResponseBean> create(@RequestBody BookRequestBean bean){
         bookValidation.validateNewBook(bean);
@@ -32,6 +37,12 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    /**
+     * endpoint for listing of created book
+     * @param pageable
+     * @param keyword
+     * @return list of books
+     */
     @GetMapping("")
     public ResponseEntity<GeneralResponseBean> list(Pageable pageable,
                                                        @RequestParam(required = false, defaultValue = "") String keyword) {
@@ -40,6 +51,11 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for detail of book based on given id
+     * @param id
+     * @return detail information of book
+     */
     @GetMapping("/{id}")
     public ResponseEntity<GeneralResponseBean> detail(@PathVariable long id) {
         GeneralResponseBean<BookResponseBean> response =
@@ -47,6 +63,11 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for updating book information
+     * @param bean
+     * @return only information about updated book
+     */
     @PutMapping("/update")
     public ResponseEntity<GeneralResponseBean> update(@RequestBody BookRequestBean bean){
         bookValidation.validateUpdatedBook(bean);
@@ -55,6 +76,11 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for deleting book by given id
+     * @param id
+     * @return success message only
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){
         bookService.deleteBook(id);

@@ -20,6 +20,11 @@ public class PeopleController {
         this.peopleValidation = peopleValidation;
     }
 
+    /**
+     * endpoint for create people into database
+     * @param bean which contains name, email, and nik
+     * @return only information about created people
+     */
     @PostMapping("/create")
     public ResponseEntity<GeneralResponseBean> create(@RequestBody PeopleRequestBean bean){
         peopleValidation.validateNewPeople(bean);
@@ -28,6 +33,12 @@ public class PeopleController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    /**
+     * endpoint for listing of created people
+     * @param pageable
+     * @param keyword
+     * @return list of peoples
+     */
     @GetMapping("")
     public ResponseEntity<GeneralResponseBean> list(Pageable pageable,
                                                     @RequestParam(required = false, defaultValue = "") String keyword) {
@@ -36,6 +47,11 @@ public class PeopleController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for detail of people based on given id
+     * @param id
+     * @return detail information of people
+     */
     @GetMapping("/{id}")
     public ResponseEntity<GeneralResponseBean> detail(@PathVariable long id) {
         GeneralResponseBean<PeopleResponseBean> response =
@@ -43,6 +59,11 @@ public class PeopleController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for updating people information
+     * @param bean
+     * @return only information about updated people
+     */
     @PutMapping("/update")
     public ResponseEntity<GeneralResponseBean> update(@RequestBody PeopleRequestBean bean){
         peopleValidation.validateUpdatedPeople(bean);
@@ -51,6 +72,11 @@ public class PeopleController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for deleting people by given id
+     * @param id
+     * @return success message only
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){
         peopleService.deletePeople(id);

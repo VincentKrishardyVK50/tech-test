@@ -20,6 +20,11 @@ public class LoanController {
         this.loanService = loanService;
     }
 
+    /**
+     * endpoint for processing loan book
+     * @param bean which contains people id as borrower, id of loan book, loan date, and expected return date
+     * @return success message only
+     */
     @PostMapping("/loan")
     public ResponseEntity<GeneralResponseBean<Void>> loanBook(@RequestBody LoanRequestBean bean) {
         loanService.processLoanBook(bean);
@@ -27,6 +32,11 @@ public class LoanController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    /**
+     * endpoint for processing return book
+     * @param loanId
+     * @return success message only
+     */
     @PutMapping("/return/{loanId}")
     public ResponseEntity<GeneralResponseBean<Void>> returnBook(@PathVariable long loanId) {
         loanService.processReturnBook(loanId);
@@ -34,6 +44,12 @@ public class LoanController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * endpoint for list of loan history
+     * @param pageable
+     * @param keyword
+     * @return list of loan history object which contains borrower name, book title, loan date, actual return date, and return status
+     */
     @GetMapping ("/loan/list")
     public ResponseEntity loanBookList(Pageable pageable,
                                        @RequestParam(required = false, defaultValue = "") String keyword) {
