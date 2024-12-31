@@ -23,13 +23,13 @@ public class PeopleController {
     /**
      * endpoint for create people into database
      * @param bean which contains name, email, and nik
-     * @return only information about created people
+     * @return success message only
      */
     @PostMapping("/create")
     public ResponseEntity<GeneralResponseBean> create(@RequestBody PeopleRequestBean bean){
         peopleValidation.validateNewPeople(bean);
-        GeneralResponseBean<PeopleResponseBean> response =
-                new GeneralResponseBean<>(peopleService.createNewPeople(bean), HttpStatus.CREATED);
+        peopleService.createNewPeople(bean);
+        GeneralResponseBean<Void> response = new GeneralResponseBean<>(null, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -62,13 +62,13 @@ public class PeopleController {
     /**
      * endpoint for updating people information
      * @param bean
-     * @return only information about updated people
+     * @return success message only
      */
     @PutMapping("/update")
     public ResponseEntity<GeneralResponseBean> update(@RequestBody PeopleRequestBean bean){
         peopleValidation.validateUpdatedPeople(bean);
-        GeneralResponseBean<PeopleResponseBean> response =
-                new GeneralResponseBean<>(peopleService.updateCurrentPeople(bean), HttpStatus.OK);
+        peopleService.updateCurrentPeople(bean);
+        GeneralResponseBean<Void> response =new GeneralResponseBean<>(null, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

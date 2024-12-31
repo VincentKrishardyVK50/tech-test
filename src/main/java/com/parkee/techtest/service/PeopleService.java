@@ -22,20 +22,18 @@ public class PeopleService {
     }
 
     @Transactional
-    public PeopleResponseBean createNewPeople(PeopleRequestBean request) {
+    public void createNewPeople(PeopleRequestBean request) {
         People people = peopleMapper.toEntity(request); // mapping using mapstruct too instead set each attributes manually
-        people = peopleRepository.save(people);
-        return peopleMapper.toBean(people);
+        peopleRepository.save(people);
     }
 
     @Transactional
-    public PeopleResponseBean updateCurrentPeople(PeopleRequestBean request) {
+    public void updateCurrentPeople(PeopleRequestBean request) {
         // find current people by id which want to update
         People people = peopleRepository.findById(request.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
         peopleMapper.toUpdateEntity(request, people);
-        people = peopleRepository.save(people);
-        return peopleMapper.toBean(people);
+        peopleRepository.save(people);
     }
 
     @Transactional

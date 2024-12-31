@@ -27,13 +27,13 @@ public class BookController {
     /**
      * endpoint for create book into database
      * @param bean which contains book title, isbn number, and stock
-     * @return only information about created book
+     * @return success message only
      */
     @PostMapping("/create")
     public ResponseEntity<GeneralResponseBean> create(@RequestBody BookRequestBean bean){
         bookValidation.validateNewBook(bean);
-        GeneralResponseBean<BookResponseBean> response =
-                new GeneralResponseBean<>(bookService.createNewBook(bean), HttpStatus.CREATED);
+        bookService.createNewBook(bean);
+        GeneralResponseBean<Void> response = new GeneralResponseBean<>(null, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -66,20 +66,20 @@ public class BookController {
     /**
      * endpoint for updating book information
      * @param bean
-     * @return only information about updated book
+     * @return success message only
      */
     @PutMapping("/update")
     public ResponseEntity<GeneralResponseBean> update(@RequestBody BookRequestBean bean){
         bookValidation.validateUpdatedBook(bean);
-        GeneralResponseBean<BookResponseBean> response =
-                new GeneralResponseBean<>(bookService.updateCurrentBook(bean), HttpStatus.OK);
+        bookService.updateCurrentBook(bean);
+        GeneralResponseBean<Void> response = new GeneralResponseBean<>(null, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
      * endpoint for deleting book by given id
      * @param id
-     * @return success message only
+     * @return
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){

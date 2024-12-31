@@ -23,20 +23,18 @@ public class BookService {
     }
 
     @Transactional
-    public BookResponseBean createNewBook(BookRequestBean request) {
+    public void createNewBook(BookRequestBean request) {
         Book book = bookMapper.toEntity(request); // mapping using mapstruct instead set each attributes manually
-        book = bookRepository.save(book);
-        return bookMapper.toBean(book);
+        bookRepository.save(book);
     }
 
     @Transactional
-    public BookResponseBean updateCurrentBook(BookRequestBean request) {
+    public void updateCurrentBook(BookRequestBean request) {
         // find current book by id which want to update
         Book book = bookRepository.findById(request.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Data tidak ditemukan!"));
         bookMapper.toUpdatedEntity(request, book);
-        book = bookRepository.save(book);
-        return bookMapper.toBean(book);
+        bookRepository.save(book);
     }
 
     @Transactional
