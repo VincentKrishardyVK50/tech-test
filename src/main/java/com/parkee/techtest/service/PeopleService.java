@@ -23,8 +23,15 @@ public class PeopleService {
 
     @Transactional
     public void createNewPeople(PeopleRequestBean request) {
-        People people = peopleMapper.toEntity(request); // mapping using mapstruct too instead set each attributes manually
-        peopleRepository.save(people);
+        // validate if given nik is registered before and already deleted
+        peopleRepository.findByNikAndDeletedTrue(request.getNik()).ifPresentOrElse(entity -> {
+            entity.setDeleted(true);  // reactivate user data
+            peopleMapper.toUpdateEntity(request, entity);  // mapping existing people data with updated information
+            peopleRepository.save(entity);
+        }, () -> {
+            People people = peopleMapper.toEntity(request); // mapping using mapstruct too instead set each attributes manually
+            peopleRepository.save(people);
+        });
     }
 
     @Transactional

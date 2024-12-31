@@ -24,8 +24,15 @@ public class BookService {
 
     @Transactional
     public void createNewBook(BookRequestBean request) {
-        Book book = bookMapper.toEntity(request); // mapping using mapstruct instead set each attributes manually
-        bookRepository.save(book);
+        // validate if given isbn is registered before and already deleted
+        bookRepository.findByIsbnNumberAndDeletedTrue(request.getIsbnNumber()).ifPresentOrElse(entity -> {
+            entity.setDeleted(false);  // reactivate book data
+            bookMapper.toUpdatedEntity(request, entity);    // mapping existing book data with updated information
+            bookRepository.save(entity);
+        }, () -> {
+            Book book = bookMapper.toEntity(request); // mapping using mapstruct instead set each attributes manually
+            bookRepository.save(book);
+        });
     }
 
     @Transactional

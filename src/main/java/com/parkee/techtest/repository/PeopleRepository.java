@@ -15,6 +15,8 @@ public interface PeopleRepository extends JpaRepository<People, Long> {
 
     Optional<People> findByNikAndDeletedFalse(String nik);
 
+    Optional<People> findByNikAndDeletedTrue(String nik);
+
     Optional<People> findByEmailAndIdNotAndDeletedFalse(String email, long id);
 
     Optional<People> findByNikAndIdNotAndDeletedFalse(String nik, long id);

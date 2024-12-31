@@ -79,7 +79,7 @@ public class BookController {
     /**
      * endpoint for deleting book by given id
      * @param id
-     * @return
+     * @return success message only
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GeneralResponseBean> delete(@PathVariable long id){

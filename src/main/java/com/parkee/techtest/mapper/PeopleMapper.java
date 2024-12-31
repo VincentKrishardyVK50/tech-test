@@ -17,5 +17,6 @@ public interface PeopleMapper {
 
     // method for mapping into entity which want to update
     // source: https://medium.com/@bectorhimanshu/part-2-advanced-mapping-with-mapstruct-using-mappingtarget-in-spring-boot-c1c7111f3bb5
+    @Mapping(target = "id", ignore = true)
     void toUpdateEntity(PeopleRequestBean bean, @MappingTarget People entity);
 }

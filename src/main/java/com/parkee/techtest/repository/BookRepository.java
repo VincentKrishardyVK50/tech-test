@@ -14,6 +14,8 @@ public interface BookRepository extends JpaRepository <Book, Long> {
     Optional<Book> findByIsbnNumberAndDeletedFalse(String isbn);
     Optional<Book> findByIsbnNumberAndIdNotAndDeletedFalse(String isbn, long id);
 
+    Optional<Book> findByIsbnNumberAndDeletedTrue(String isbn);
+
 
     @Query(nativeQuery = true, value =
             "SELECT * FROM book b " +

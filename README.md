@@ -36,5 +36,4 @@ Before develop REST API for the assessment, I designed relational database like 
 
 * There's possible that have duplicated title book and name of people
 * Payload attribute to describe people and books using id from each entity, assuming when selecting books and people data using the dropdown feature on client-side which returns list of people and book object 
-* Process of returning book is assumed by just clicking some button on client-side for return the book, no more update the other data
-* Assumed if people or books which already deleted can't be recreated again
+* Process of returning book is assumed by only clicking a button on client-side for return the book, no more data to be updated
